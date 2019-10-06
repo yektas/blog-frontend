@@ -1,0 +1,26 @@
+mutation CreatePost(
+	$title: String!
+	$content: String!
+	$coverImage: String!
+	$categoryId: Float!
+	$excerpt: String
+	$tags: String
+) {
+	createPost(
+		title: $title
+		content: $content
+		coverImage: $coverImage
+		categoryId: $categoryId
+		excerpt: $excerpt
+		tags: $tags
+	) {
+		id
+		title
+		author {
+			id
+			email
+			firstName
+			lastName
+		}
+	}
+}

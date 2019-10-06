@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { observer } from 'mobx-react-lite';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-export default App;
+import { setAccessToken } from './accessToken';
+import { useMeQuery } from './generated/graphql';
+import { Routes } from './Routes';
+import { RootStoreContext } from './store/RootStore';
+
+interface Props {}
+
+export const App: React.FC<Props> = observer(() => {
+	const { userStore } = React.useContext(RootStoreContext);
+	const { data } = useMeQuery();
+	const [loading, setLoading] = useState(true);
+
+	if (data) {
+		console.log(data);
+	}
+
+	useEffect(() => {
+		fetch('http://localhost:4000/refresh_token', {
+			method: 'POST',
+			credentials: 'include'
+		}).then(async (x) => {
+			const { accessToken } = await x.json();
+			setAccessToken(accessToken);
+			setLoading(false);
+		});
+	}, []);
+
+	if (loading) {
+		return <div>loading...</div>;
+	}
+	return (
+		<Router>
+			<Routes />
+		</Router>
+	);
+});

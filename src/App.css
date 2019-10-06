@@ -1,22 +1,101 @@
-.App {
-  text-align: center;
+:root {
+    /* Default values for dark mode */
+    --text-color: rgba(255, 255, 255, 0.89);
+    --secondary-text-color: rgba(255, 255, 255, 0.5);
+    --background: #262628;
+    --header-shadow-color: #1c1c1c;
+    --main-text-size: 18px;
+    --secondary-text-size: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: var(--main-text-size);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--background);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+span[class='ant-typography'] {
+    font-size: var(--main-text-size);
+    color: var(--text-color);
 }
 
-.App-link {
-  color: #09d3ac;
+.anticon {
+    vertical-align: 0 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color) !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.ant-form-explain {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ant-form-item-label label {
+    color: var(--text-color);
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item>a {
+    color: var(--text-color);
+}
+
+.ant-menu-dark>.ant-menu {
+    background: var(--background);
+    background-color: var(--background);
+}
+
+img {
+    border: 5px;
+}
+
+/* code {
+    background-color: grey !important;
+    border-radius: 3px !important;
+    font-family: courier, monospace;
+    padding: 0 3px;
+} */
+
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+}
+
+.ant-typography>a {
+    color: inherit;
+}
+
+.ant-typography>a:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+.ant-typography>a:hover,
+a:hover {
+    color: #e94828;
+}
+
+a {
+    /*color: #f3a870;*/
+    color: #1890ff;
+}
+
+a:hover {
+    color: #e94828;
 }
