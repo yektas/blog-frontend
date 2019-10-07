@@ -1,6 +1,5 @@
 import { EditableType } from '@react-page/core/lib/types/editable';
 import { action, observable } from 'mobx';
-import { createContext } from 'react';
 
 import { RootStore } from './RootStore';
 

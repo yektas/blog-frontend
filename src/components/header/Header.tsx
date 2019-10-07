@@ -2,7 +2,7 @@ import './header.css';
 
 import { Button, Col, Drawer, Icon } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,40 +13,35 @@ import { device } from '../../device';
 import { RootStoreContext } from '../../store/RootStore';
 import { LeftMenu } from './LeftMenu';
 import { RightMenu } from './RightMenu';
+import { changeTheme } from '../../utils/changeTheme';
 
 interface Props {}
 
-const Desktop = (children: React.ReactNode) => {
-	const isDesktop = useMediaQuery({ minWidth: 992 });
-	return isDesktop ? children : null;
-};
-const Tablet = (children: React.ReactNode) => {
-	const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-	return isTablet ? children : null;
-};
-const Mobile = (children: React.ReactNode) => {
-	const isMobile = useMediaQuery({ maxWidth: 767 });
-	return isMobile ? children : null;
-};
-const Default = (children: React.ReactNode) => {
-	const isNotMobile = useMediaQuery({ minWidth: 768 });
-	return isNotMobile ? children : null;
-};
+// const Desktop = (children: React.ReactNode) => {
+// 	const isDesktop = useMediaQuery({ minWidth: 992 });
+// 	return isDesktop ? children : null;
+// };
+// const Tablet = (children: React.ReactNode) => {
+// 	const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+// 	return isTablet ? children : null;
+// };
+// const Mobile = (children: React.ReactNode) => {
+// 	const isMobile = useMediaQuery({ maxWidth: 767 });
+// 	return isMobile ? children : null;
+// };
+// const Default = (children: React.ReactNode) => {
+// 	const isNotMobile = useMediaQuery({ minWidth: 768 });
+// 	return isNotMobile ? children : null;
+// };
 
 export const HeaderComponent: React.FC<Props> = observer(() => {
-	const { styleStore, userStore } = React.useContext(RootStoreContext);
+	const { styleStore } = React.useContext(RootStoreContext);
 	const [authModalVisible, setAuthModalVisible] = React.useState(false);
 	const [drawerVisible, setDrawerVisible] = React.useState(false);
 
-	// componentDidMount() {
-	// 	this.setState(
-	// 		{
-	// 			theme: this.state.theme
-	// 		},
-	// 		this.setTheme(this.state.theme)
-	// 	);
-	// }
-
+	useEffect(() => {
+		changeTheme(styleStore.theme);
+	}, [styleStore.theme]);
 	return (
 		<nav className="menu">
 			<div className="menu__logo">

@@ -8,8 +8,8 @@ import * as Yup from 'yup';
 import { getAccessToken, setAccessToken } from '../../accessToken';
 import { useLoginMutation } from '../../generated/graphql';
 import { RootStoreContext } from '../../store/RootStore';
-import { UserType } from '../../store/UserType';
 import { FormInput } from '../common/FormInput';
+import { UserType } from '../../store/UserStore';
 
 interface Props {}
 

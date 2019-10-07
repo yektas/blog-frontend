@@ -13,13 +13,14 @@ import { RootStoreContext } from './store/RootStore';
 interface Props {}
 
 export const App: React.FC<Props> = observer(() => {
-	const { userStore } = React.useContext(RootStoreContext);
+	const { styleStore } = React.useContext(RootStoreContext);
 	const { data } = useMeQuery();
 	const [loading, setLoading] = useState(true);
 
-	if (data) {
-		console.log(data);
-	}
+	useEffect(() => {
+		//Set default theme to light
+		styleStore.setTheme('light');
+	});
 
 	useEffect(() => {
 		fetch('http://localhost:4000/refresh_token', {
