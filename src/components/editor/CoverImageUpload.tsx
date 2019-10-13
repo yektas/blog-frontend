@@ -13,6 +13,8 @@ export const CoverImageUpload: React.FC<Props> = observer(() => {
 	const [imageFile, setImageFile] = React.useState(null);
 	const [imagePreview, setImagePreview] = React.useState<any>(null);
 
+	//TODO wait for cloudinary-react library to add typings then handle image upload
+
 	const onDrop = (files: any) => {
 		const uploadedFile = files.map((file: any) =>
 			Object.assign(file, {

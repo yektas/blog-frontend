@@ -41,23 +41,25 @@ const ImageHolder = styled.span`
 
 type Props = {
 	image: string;
+	size?: 'small' | 'normal' | 'large';
 	tag?: string;
-	slug: string;
+	slug?: string;
+	clickable?: boolean;
 };
 
-export const Image: React.FC<Props> = ({ image, slug, tag }) => {
+export const Image: React.FC<Props> = ({ image, slug, tag, size, clickable }) => {
 	return (
 		<Wrapper>
-			{slug ? (
+			{clickable ? (
 				<Link to={`/blog/post/${slug}`}>
 					<ImageWrapper>
-						<ImageHolder image={image} />
+						<ImageHolder image={image} size={size} />
 						<Tag tag={tag} />
 					</ImageWrapper>
 				</Link>
 			) : (
 				<ImageWrapper>
-					<ImageHolder image={image} />
+					<ImageHolder image={image} size={size} />
 					<Tag tag={tag} />
 				</ImageWrapper>
 			)}

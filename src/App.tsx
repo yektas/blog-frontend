@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-
 import { setAccessToken } from './accessToken';
 import { useMeQuery } from './generated/graphql';
 import { Routes } from './Routes';
