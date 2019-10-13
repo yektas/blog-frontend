@@ -14,9 +14,9 @@ export const PostSummary: React.FC<Props> = observer(({ onPublish }) => {
 	return (
 		<div>
 			<h1>{postStore.title}</h1>
-			{postStore.tags.map((tag) => (
+			{/* {postStore.tags.map((tag) => (
 				<p key={tag}>{tag}</p>
-			))}
+			))} */}
 
 			<Button type="primary" htmlType="submit" onClick={onPublish}>
 				{' '}

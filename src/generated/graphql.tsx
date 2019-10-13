@@ -17,7 +17,6 @@ export type Category = {
    __typename?: 'Category',
   id: Scalars['Int'],
   name: Scalars['String'],
-  posts: Array<Post>,
   slug: Scalars['String'],
 };
 
@@ -121,13 +120,23 @@ export type User = {
   lastName?: Maybe<Scalars['String']>,
   posts: Array<Post>,
 };
+export type CategoriesQueryVariables = {};
+
+
+export type CategoriesQuery = (
+  { __typename?: 'Query' }
+  & { categories: Array<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'name' | 'slug'>
+  )> }
+);
+
 export type CreatePostMutationVariables = {
   title: Scalars['String'],
   content: Scalars['String'],
   coverImage: Scalars['String'],
   categoryId: Scalars['Float'],
-  excerpt?: Maybe<Scalars['String']>,
-  tags?: Maybe<Scalars['String']>
+  excerpt?: Maybe<Scalars['String']>
 };
 
 
@@ -135,10 +144,26 @@ export type CreatePostMutation = (
   { __typename?: 'Mutation' }
   & { createPost: (
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title'>
+    & Pick<Post, 'id' | 'title' | 'slug'>
+  ) }
+);
+
+export type GetPostQueryVariables = {
+  id: Scalars['Float']
+};
+
+
+export type GetPostQuery = (
+  { __typename?: 'Query' }
+  & { getPost: (
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'content' | 'publishedOn' | 'image' | 'slug'>
     & { author: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>
+    ), category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'name' | 'slug'>
     ) }
   ) }
 );
@@ -225,17 +250,31 @@ export type UsersQuery = (
   )> }
 );
 
+export const CategoriesDocument = gql`
+    query Categories {
+  categories {
+    id
+    name
+    slug
+  }
+}
+    `;
+
+    export function useCategoriesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+      return ApolloReactHooks.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+    }
+      export function useCategoriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+      }
+      
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesQueryResult = ApolloReactCommon.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const CreatePostDocument = gql`
-    mutation CreatePost($title: String!, $content: String!, $coverImage: String!, $categoryId: Float!, $excerpt: String, $tags: String) {
-  createPost(title: $title, content: $content, coverImage: $coverImage, categoryId: $categoryId, excerpt: $excerpt, tags: $tags) {
+    mutation CreatePost($title: String!, $content: String!, $coverImage: String!, $categoryId: Float!, $excerpt: String) {
+  createPost(title: $title, content: $content, coverImage: $coverImage, categoryId: $categoryId, excerpt: $excerpt) {
     id
     title
-    author {
-      id
-      email
-      firstName
-      lastName
-    }
+    slug
   }
 }
     `;
@@ -247,6 +286,39 @@ export type CreatePostMutationFn = ApolloReactCommon.MutationFunction<CreatePost
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = ApolloReactCommon.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const GetPostDocument = gql`
+    query GetPost($id: Float!) {
+  getPost(id: $id) {
+    id
+    title
+    content
+    publishedOn
+    image
+    slug
+    author {
+      id
+      email
+      firstName
+      lastName
+    }
+    category {
+      id
+      name
+      slug
+    }
+  }
+}
+    `;
+
+    export function useGetPostQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+      return ApolloReactHooks.useQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, baseOptions);
+    }
+      export function useGetPostLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, baseOptions);
+      }
+      
+export type GetPostQueryHookResult = ReturnType<typeof useGetPostQuery>;
+export type GetPostQueryResult = ApolloReactCommon.QueryResult<GetPostQuery, GetPostQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

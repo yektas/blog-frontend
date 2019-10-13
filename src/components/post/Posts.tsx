@@ -22,7 +22,7 @@ const Skeletons = () => {
 export const Posts: React.FC<Props> = () => {
 	const { data, loading, error } = usePostsQuery();
 
-	if (!data) {
+	if (loading) {
 		return <Skeletons />;
 	}
 
@@ -31,7 +31,7 @@ export const Posts: React.FC<Props> = () => {
 		<>
 			{data &&
 				data.posts.map((post) => (
-					<Col xs={24} sm={24} md={12} lg={12} xl={8}>
+					<Col key={post.id} xs={24} sm={24} md={12} lg={12} xl={8}>
 						<SinglePost post={post} />
 					</Col>
 				))}

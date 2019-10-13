@@ -16,6 +16,12 @@ export class PostStore {
 	@observable excerpt: string = '';
 	@observable coverImage: string = '';
 	@observable categoryId: number = -1;
+	@observable selectedPostId: number = -1;
+
+	@action
+	setSelectedPostId(postId: number) {
+		this.selectedPostId = postId;
+	}
 
 	@action
 	setContent(content: string | EditableType) {
@@ -33,7 +39,7 @@ export class PostStore {
 	}
 
 	@action
-	setTags(tags: any) {
+	setTags(tags: string[]) {
 		this.tags = tags;
 	}
 

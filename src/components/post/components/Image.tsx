@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tag } from './Tag';
+import { RootStoreContext } from '../../../store/RootStore';
 
 const Wrapper = styled.div`
 	position: relative;
@@ -38,13 +39,13 @@ const ImageHolder = styled.span`
     background-size: cover !important;
 ` as any;
 
-interface Props {
+type Props = {
 	image: string;
 	tag?: string;
 	slug: string;
-}
+};
 
-export const Image: React.FC<Props> = ({ image, tag, slug }) => {
+export const Image: React.FC<Props> = ({ image, slug, tag }) => {
 	return (
 		<Wrapper>
 			{slug ? (

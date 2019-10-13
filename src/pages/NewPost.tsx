@@ -1,5 +1,5 @@
 import { Col } from 'antd';
-import { Field, Form, Formik, FormikFormProps } from 'formik';
+import { Field, Form, Formik, FormikFormProps, FormikActions } from 'formik';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 
@@ -30,13 +30,13 @@ export const NewPost: React.FC<Props> = observer(() => {
 		return content;
 	};
 
-	const handleSubmit = async (values: FormValues, actions: any) => {
+	const handleSubmit = async (values: FormValues, actions: FormikActions<FormValues>) => {
 		postStore.setTitle(values.title);
 		actions.setSubmitting(false);
 
 		//Fix paragraph serialization issue before posting #https://github.com/react-page/react-page/issues/498
 		const content = replaceParagraphType(postStore.content);
-		const tags = postStore.tags.join();
+		// const tags = postStore.tags.join();
 
 		const response = await newPost({
 			variables: {
@@ -44,8 +44,7 @@ export const NewPost: React.FC<Props> = observer(() => {
 				excerpt: postStore.excerpt,
 				content: content,
 				categoryId: postStore.categoryId,
-				coverImage: postStore.coverImage,
-				tags
+				coverImage: postStore.coverImage
 			}
 		});
 		console.log(response);
@@ -60,14 +59,14 @@ export const NewPost: React.FC<Props> = observer(() => {
 			initialValues={{
 				title: ''
 			}}
-			onSubmit={() => handleSubmit}
+			onSubmit={(values, formikActions) => handleSubmit(values, formikActions)}
 			render={(props) => (
 				<EditorLayout>
 					<Form>
 						<PostDetailsForm
 							visible={detailFormVisible}
 							onCancel={() => setDetailFormVisible(false)}
-							onPublish={props.submitForm}
+							onPublish={() => props.submitForm()}
 						/>
 						<Col span={2} offset={16}>
 							<OutlineButton type="primary" onClick={() => handlePublish(props.values.title)}>

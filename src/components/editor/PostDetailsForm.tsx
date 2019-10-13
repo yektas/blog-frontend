@@ -37,15 +37,15 @@ export const PostDetailsForm: React.FC<Props> = ({ visible, onPublish, onCancel 
 			icon: 'project',
 			content: <ChooseCategory />
 		},
+		// {
+		// 	key: 2,
+		// 	title: 'Tags',
+		// 	description: 'Choose your tags',
+		// 	icon: 'tags',
+		// 	content: <EditableTagGroup />
+		// },
 		{
 			key: 2,
-			title: 'Tags',
-			description: 'Choose your tags',
-			icon: 'tags',
-			content: <EditableTagGroup />
-		},
-		{
-			key: 3,
 			title: 'Submit',
 			description: 'Preview your post',
 			icon: 'check',

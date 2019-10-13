@@ -13,7 +13,7 @@ export const EditableTagGroup: React.FC<Props> = observer(() => {
 	const [inputVisible, setInputVisible] = React.useState(false);
 	const [inputValue, setInputValue] = React.useState('');
 
-	let inputRef = React.createRef<Input>();
+	const inputRef: any = React.useRef(null);
 
 	const handleClose = (removedTag: string) => {
 		const tags = postStore.tags.filter((tag) => tag !== removedTag);
@@ -41,14 +41,12 @@ export const EditableTagGroup: React.FC<Props> = observer(() => {
 		setInputValue('');
 	};
 
-	const saveInputRef = (input: React.RefObject<Input>) => (inputRef = input);
-
 	return (
 		<div>
 			{tags.map((tag, index) => {
 				const isLongTag = tag.length > 20;
 				const tagElem = (
-					<Tag key={tag} closable={true} afterClose={() => handleClose(tag)}>
+					<Tag key={tag} closable={true} onClose={() => handleClose(tag)}>
 						{isLongTag ? `${tag.slice(0, 20)}...` : tag}
 					</Tag>
 				);
@@ -62,18 +60,17 @@ export const EditableTagGroup: React.FC<Props> = observer(() => {
 			})}
 			{inputVisible && (
 				<Input
-					ref={() => saveInputRef}
+					ref={inputRef}
 					type="text"
 					size="small"
 					style={{ width: 78 }}
 					value={inputValue}
-					onChange={() => handleInputChange}
-					onBlur={() => handleInputConfirm}
-					onPressEnter={() => handleInputConfirm}
+					onChange={(e) => handleInputChange(e)}
+					onPressEnter={(e) => handleInputConfirm()}
 				/>
 			)}
 			{!inputVisible && tags.length < 5 && (
-				<Tag onClick={() => showInput} color="blue" style={{ background: '#fff' }}>
+				<Tag onClick={(e) => showInput()} color="blue" style={{ background: '#fff' }}>
 					<Icon type="plus" /> New Tag
 				</Tag>
 			)}
