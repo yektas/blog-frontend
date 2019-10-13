@@ -9,6 +9,7 @@ import { RootStoreContext } from '../../store/RootStore';
 import { changeTheme } from '../../utils/changeTheme';
 import { AuthModal } from '../auth/AuthModal';
 import { OutlineButton } from '../common/OutlineButton';
+import { UserMenu } from '../menu/UserMenu';
 
 interface Props extends ButtonProps {
 	mode: string;
@@ -31,22 +32,22 @@ const CustomMenuItem = styled(Menu.Item)`
 	flex: 1;
 `;
 
-const menu = (
-	<CustomMenu>
-		<CustomMenuItem key="1">
-			<Icon type="user" />
-			1st menu item
-		</CustomMenuItem>
-		<CustomMenuItem key="2">
-			<Icon type="user" />
-			2nd menu item
-		</CustomMenuItem>
-		<CustomMenuItem key="3">
-			<Icon type="user" />
-			3rd item
-		</CustomMenuItem>
-	</CustomMenu>
-);
+// const menu = (
+// 	<CustomMenu>
+// 		<CustomMenuItem key="1">
+// 			<Icon type="user" />
+// 			1st menu item
+// 		</CustomMenuItem>
+// 		<CustomMenuItem key="2">
+// 			<Icon type="user" />
+// 			2nd menu item
+// 		</CustomMenuItem>
+// 		<CustomMenuItem key="3">
+// 			<Icon type="user" />
+// 			3rd item
+// 		</CustomMenuItem>
+// 	</CustomMenu>
+// );
 
 export const RightMenu: React.FC<Props> = observer((props) => {
 	const { styleStore, userStore } = React.useContext(RootStoreContext);
@@ -65,13 +66,7 @@ export const RightMenu: React.FC<Props> = observer((props) => {
 	return (
 		<CustomMenu mode={mode} triggerSubMenuAction="click">
 			{user.id ? (
-				<CustomMenuItem>
-					<Dropdown overlay={menu} trigger={['click']}>
-						<OutlineButton type="primary" style={{ marginLeft: 8 }}>
-							Button <Icon type="down" />
-						</OutlineButton>
-					</Dropdown>
-				</CustomMenuItem>
+				<UserMenu />
 			) : (
 				<CustomMenuItem>
 					<Link to="#" />
