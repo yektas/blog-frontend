@@ -13,7 +13,6 @@ import { device } from '../../device';
 import { RootStoreContext } from '../../store/RootStore';
 import { LeftMenu } from './LeftMenu';
 import { RightMenu } from './RightMenu';
-import { changeTheme } from '../../utils/changeTheme';
 
 interface Props {}
 
@@ -35,19 +34,15 @@ interface Props {}
 // };
 
 export const HeaderComponent: React.FC<Props> = observer(() => {
-	const { styleStore } = React.useContext(RootStoreContext);
 	const [authModalVisible, setAuthModalVisible] = React.useState(false);
 	const [drawerVisible, setDrawerVisible] = React.useState(false);
 
-	useEffect(() => {
-		changeTheme(styleStore.theme);
-	}, [styleStore.theme]);
 	return (
 		<nav className="menu" style={{ background: 'transparent' }}>
 			<div className="menu__logo">
 				<Col lg={4} md={5} sm={24} xs={24}>
 					<Link to="/">
-						<Logo src={styleStore.theme === 'dark' ? lightLogo : darkLogo} alt="test" />
+						<Logo src={lightLogo} alt="test" />
 					</Link>
 				</Col>
 			</div>

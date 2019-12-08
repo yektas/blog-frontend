@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { RootStoreContext } from '../../store/RootStore';
-import { changeTheme } from '../../utils/changeTheme';
 import { AuthModal } from '../auth/AuthModal';
 import { OutlineButton } from '../common/OutlineButton';
 import { UserMenu } from '../menu/UserMenu';
@@ -53,16 +52,6 @@ export const RightMenu: React.FC<Props> = observer((props) => {
 	const { styleStore, userStore } = React.useContext(RootStoreContext);
 	const user = userStore.user;
 	const { mode, onLoginCancel, onLoginClick, authModalVisible } = props;
-
-	const toggleTheme = () => {
-		if (styleStore.theme === 'dark') {
-			styleStore.setTheme('light');
-			changeTheme('light');
-		} else {
-			styleStore.setTheme('dark');
-			changeTheme('dark');
-		}
-	};
 	return (
 		<CustomMenu mode={mode} triggerSubMenuAction="click">
 			{user.id ? (
@@ -76,14 +65,6 @@ export const RightMenu: React.FC<Props> = observer((props) => {
 					<AuthModal visible={authModalVisible} onCancel={onLoginCancel} />
 				</CustomMenuItem>
 			)}
-			<CustomMenuItem>
-				<Switch
-					checked={styleStore.theme === 'dark'}
-					onChange={toggleTheme}
-					checkedChildren="Dark"
-					unCheckedChildren="Light"
-				/>
-			</CustomMenuItem>
 		</CustomMenu>
 	);
 });

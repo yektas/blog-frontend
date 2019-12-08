@@ -6,8 +6,8 @@ import styled from 'styled-components';
 const { Text } = Typography;
 
 const StyledText = styled(Text)`
-	font-size: var(--secondary-text-size);
-	color: var(--secondary-text-color);
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.5);
 	font-weight: ${(props: any) => (props.bold ? 'bold' : 'normal')};
 	font-style: italic;
 ` as any;

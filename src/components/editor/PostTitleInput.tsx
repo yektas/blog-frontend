@@ -11,7 +11,7 @@ const CustomTextArea = styled(TextArea)`
 		background: transparent;
 		border: none;
 		font-size: 2.5em;
-		color: var(--heading-color);
+		color: rgba(255, 255, 255, 0.89);
 		font-family: 'MontSerrat', sans-serif;
 		resize: none;
 		overflow: hidden;

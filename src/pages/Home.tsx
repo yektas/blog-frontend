@@ -1,10 +1,14 @@
-import { Button, Typography, Icon } from 'antd';
+import { Button, Typography, Icon, Card, Row } from 'antd';
+import ScrollAnimation from 'react-animate-on-scroll';
+
 import React from 'react';
 import styled from 'styled-components';
 import Particles from 'react-particles-js';
 import particleConfig from '../assets/particles-config.json';
 import { HomeHeader } from '../components/header/HomeHeader';
 import { Link, Element } from 'react-scroll';
+import { About } from './About';
+import { Portfolio } from './Portfolio';
 
 const BannerContainer = styled.div`
 	height: 100vh;
@@ -25,8 +29,8 @@ const BannerItem = styled.div`
 
 const { Title } = Typography;
 
-const StyledText = styled(Title)`
-	color: white !important;
+const WhiteText = styled(Title)`
+	color: rgba(255, 255, 255, 0.89) !important;
 `;
 
 const NameText = styled(Title)`
@@ -55,12 +59,13 @@ const BannerButton = styled(Button)`
 	}
 `;
 
-const BannerButtonText = styled(StyledText)`
+const BannerButtonText = styled(WhiteText)`
 	margin-bottom: 0 !important;
 	padding: 7px;
 `;
 
 const ParticlesBackground = {
+	height: '100vh',
 	position: 'absolute',
 	zIndex: -1,
 	background: '#252934'
@@ -73,28 +78,43 @@ interface Props {}
 const params: any = particleConfig;
 
 export const Home: React.FC<Props> = () => {
+	const [homeActive, setHomeActive] = React.useState(true);
+	const pages = ['about', 'portfolio', 'blog', 'contact'];
 	return (
 		<div>
-			<Particles style={ParticlesBackground} params={params} />
-			<BannerContainer>
-				<BannerItem>
-					<StyledText>
-						Hi there, I'm<NameText>Sercan Yektaş.</NameText>
-						I'm a full-stack Developer.
-					</StyledText>
-					<Link to="about" spy={true} smooth={true} duration={500}>
-						<BannerButton>
-							<BannerButtonText level={4}>
-								View my work <Icon className="arrow-down-ease" type="arrow-right" />
-							</BannerButtonText>
-						</BannerButton>
-					</Link>
-				</BannerItem>
-			</BannerContainer>
-			<HomeHeader />
-			<Element name="about" style={{ height: '100vh' }}>
-				<h1>HOME PAGE HERE</h1>
+			<Element name="home">
+				<Particles style={ParticlesBackground} params={params} />
+				<BannerContainer>
+					<BannerItem>
+						<WhiteText>
+							{/*//FIXME h1 inside h1 not allowed */}
+							Hi there, I'm<NameText>Sercan Yektaş.</NameText>
+							I'm a full-stack software developer.
+						</WhiteText>
+						<Link
+							to="about"
+							spy={true}
+							smooth={true}
+							duration={500}
+							offset={-52}
+							activeClass="link-active"
+						>
+							<BannerButton>
+								<BannerButtonText level={4}>
+									View my work <Icon className="arrow-down-ease" type="arrow-right" />
+								</BannerButtonText>
+							</BannerButton>
+						</Link>
+					</BannerItem>
+				</BannerContainer>
 			</Element>
+			<HomeHeader />
+			<ScrollAnimation delay={200} duration={0.5} animateIn="slideInLeft">
+				<About />
+			</ScrollAnimation>
+			<ScrollAnimation delay={200} duration={0.5} animateIn="slideInLeft">
+				<Portfolio />
+			</ScrollAnimation>
 		</div>
 	);
 };
