@@ -14,6 +14,10 @@ const Step = styled(Steps.Step)`
 		cursor: pointer;
 	}
 `;
+
+const CustomModal = styled(Modal)`
+	min-height: 300px;
+`;
 interface Props {
 	visible: boolean;
 	onPublish: () => void;
@@ -53,7 +57,7 @@ export const PostDetailsForm: React.FC<Props> = ({ visible, onPublish, onCancel 
 		}
 	];
 	return (
-		<Modal visible={visible} footer={null} className="full-page-modal" onCancel={onCancel}>
+		<CustomModal visible={visible} footer={null} className="full-page-modal" onCancel={onCancel}>
 			<Col span={24}>
 				<Steps current={current}>
 					{steps.map((item) => (
@@ -70,6 +74,6 @@ export const PostDetailsForm: React.FC<Props> = ({ visible, onPublish, onCancel 
 			<Col span={24} className="steps-content">
 				{steps[current].content}
 			</Col>
-		</Modal>
+		</CustomModal>
 	);
 };

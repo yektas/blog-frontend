@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { format } from 'date-fns';
-import { HomeLayout } from '../components/layout/HomeLayout';
+import { BlogLayout } from '../components/layout/BlogLayout';
 import { SecondaryText } from '../components/common/SecondaryText';
 import { PostLayout } from '../components/layout/PostLayout';
-import { HTMLRenderer } from '@react-page/renderer';
 import { useGetPostQuery } from '../generated/graphql';
 import { Image } from '../components/post/components/Image';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../store/RootStore';
 import { RouteComponentProps } from 'react-router';
+import Editor from '@react-page/editor';
 import { EditableType } from '@react-page/core/lib/types/editable';
 import { imagePlugin } from '@react-page/plugins-image';
 import spacer from '@react-page/plugins-spacer';
-import native from '@react-page/plugins-default-native';
 import slate from '@react-page/plugins-slate';
 import video from '@react-page/plugins-video';
 import divider from '@react-page/plugins-divider';
@@ -46,14 +45,14 @@ export const BlogPost: React.FC<Props> = ({ match }) => {
 	const renderPost = (content: any) => {
 		const editorContent = JSON.parse(content);
 		const editorPlugins = {
-			content: [slate(), imagePlugin(), video, spacer, divider],
-			native
+			content: [slate(), imagePlugin(), video, spacer, divider]
 		};
-		return <HTMLRenderer state={editorContent} plugins={editorPlugins} />;
+
+		return <Editor value={editorContent} plugins={editorPlugins} readOnly />;
 	};
 
 	return (
-		<HomeLayout showHeader>
+		<BlogLayout showHeader>
 			{data && (
 				<PostLayout>
 					<h1>{data.getPost.title}</h1>
@@ -81,6 +80,6 @@ export const BlogPost: React.FC<Props> = ({ match }) => {
 					{/*<CommentAntd />*/}
 				</PostLayout>
 			)}
-		</HomeLayout>
+		</BlogLayout>
 	);
 };

@@ -1,5 +1,8 @@
 .menu {
     padding: 0 20px;
+}
+
+.menu__default {
     background: var(--background);
     box-shadow: 0 2px 8px var(--header-shadow-color);
 }

@@ -31,7 +31,15 @@ export const Posts: React.FC<Props> = () => {
 		<>
 			{data &&
 				data.posts.map((post) => (
-					<Col key={post.id} xs={24} sm={24} md={12} lg={12} xl={8}>
+					<Col
+						style={{ marginBottom: 20, paddingBottom: 20 }}
+						key={post.id}
+						xs={24}
+						sm={24}
+						md={12}
+						lg={12}
+						xl={12}
+					>
 						<SinglePost post={post} />
 					</Col>
 				))}

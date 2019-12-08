@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import * as React from 'react';
 
 import { Author, Date, Image, Title } from './components';
+import styled from 'styled-components';
 
 interface Props {
 	post: any;

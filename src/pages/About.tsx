@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { HomeLayout } from '../components/layout/HomeLayout';
+import { BlogLayout } from '../components/layout/BlogLayout';
 
 interface Props {}
 
 export const About: React.FC<Props> = () => {
 	return (
-		<HomeLayout showHeader>
+		<BlogLayout showHeader>
 			<h1> About page </h1>
-		</HomeLayout>
+		</BlogLayout>
 	);
 };

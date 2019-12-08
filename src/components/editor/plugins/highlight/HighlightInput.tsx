@@ -63,7 +63,9 @@ export const HighlightInput: React.FC<Props> = (props) => {
 				placeholder="Language"
 			>
 				{availableLanguages.map((language) => (
-					<Option value={language.value}>{language.name}</Option>
+					<Option key={language.name} value={language.value}>
+						{language.name}
+					</Option>
 				))}
 			</Select>
 			<span>

@@ -43,7 +43,7 @@ export const HeaderComponent: React.FC<Props> = observer(() => {
 		changeTheme(styleStore.theme);
 	}, [styleStore.theme]);
 	return (
-		<nav className="menu">
+		<nav className="menu" style={{ background: 'transparent' }}>
 			<div className="menu__logo">
 				<Col lg={4} md={5} sm={24} xs={24}>
 					<Link to="/">
