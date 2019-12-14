@@ -8,7 +8,9 @@ import particleConfig from '../assets/particles-config.json';
 import { HomeHeader } from '../components/header/HomeHeader';
 import { Link, Element } from 'react-scroll';
 import { About } from './About';
-import { Portfolio } from './Portfolio';
+import { Projects } from './Projects';
+import { Header } from '../components/header/Header';
+import { useMediaQuery } from 'react-responsive';
 
 const BannerContainer = styled.div`
 	height: 100vh;
@@ -33,29 +35,35 @@ const WhiteText = styled(Title)`
 	color: rgba(255, 255, 255, 0.89) !important;
 `;
 
-const NameText = styled(Title)`
-	color: #f73859 !important;
+const NameText = styled.span`
+	color: #f73859;
 `;
 
 const BannerButton = styled(Button)`
-	height: auto;
-	border: 2px solid;
-	border-color: white;
-	border-radius: 0;
-	background: transparent;
-
-	.arrow-down-ease {
-		transition: 0.5s;
-		transform: rotate(0deg);
-	}
-	:hover {
-		background: #00adb5;
+	&& {
+		height: auto;
 		border: 2px solid;
-		border-color: #00adb5;
-	}
-	:hover .arrow-down-ease {
-		transition: 0.5s;
-		transform: rotate(90deg);
+		border-color: white;
+		border-radius: 0;
+		background: transparent;
+
+		.arrow-down-ease {
+			transition: 0.5s;
+			transform: rotate(0deg);
+		}
+		:hover {
+			background: #00adb5;
+			border: 2px solid;
+			border-color: #00adb5;
+		}
+		:hover .arrow-down-ease {
+			transition: 0.5s;
+			transform: rotate(90deg);
+		}
+		:active,
+		:focus {
+			background: inherit;
+		}
 	}
 `;
 
@@ -71,15 +79,17 @@ const ParticlesBackground = {
 	background: '#252934'
 };
 
-const MyDiv = styled.div``;
-
 interface Props {}
 
 const params: any = particleConfig;
 
 export const Home: React.FC<Props> = () => {
-	const [homeActive, setHomeActive] = React.useState(true);
-	const pages = ['about', 'portfolio', 'blog', 'contact'];
+	const pages = ['about', 'projects', 'blog', 'contact'];
+
+	const isMobile = useMediaQuery({
+		query: '(max-width: 767px)'
+	});
+
 	return (
 		<div>
 			<Element name="home">
@@ -87,15 +97,17 @@ export const Home: React.FC<Props> = () => {
 				<BannerContainer>
 					<BannerItem>
 						<WhiteText>
-							{/*//FIXME h1 inside h1 not allowed */}
-							Hi there, I'm<NameText>Sercan Yektaş.</NameText>
+							Hi there, I'm
+							<br />
+							<NameText>Sercan Yektaş.</NameText>
+							<br />
 							I'm a full-stack software developer.
 						</WhiteText>
 						<Link
 							to="about"
 							spy={true}
 							smooth={true}
-							duration={500}
+							duration={300}
 							offset={-52}
 							activeClass="link-active"
 						>
@@ -109,12 +121,23 @@ export const Home: React.FC<Props> = () => {
 				</BannerContainer>
 			</Element>
 			<HomeHeader />
-			<ScrollAnimation delay={200} duration={0.5} animateIn="slideInLeft">
-				<About />
-			</ScrollAnimation>
-			<ScrollAnimation delay={200} duration={0.5} animateIn="slideInLeft">
-				<Portfolio />
-			</ScrollAnimation>
+			<>
+				{isMobile ? (
+					<div>
+						<About />
+						<Projects />
+					</div>
+				) : (
+					<div>
+						<ScrollAnimation delay={200} duration={0.3} animateIn="slideInLeft">
+							<About />
+						</ScrollAnimation>
+						<ScrollAnimation delay={200} duration={0.3} animateIn="slideInLeft">
+							<Projects />
+						</ScrollAnimation>
+					</div>
+				)}
+			</>
 		</div>
 	);
 };

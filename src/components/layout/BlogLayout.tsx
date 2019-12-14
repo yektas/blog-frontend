@@ -4,6 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Header } from '../header/Header';
+import { HomeHeader } from '../header/HomeHeader';
 
 const { Content, Footer } = Layout;
 
@@ -20,7 +21,7 @@ interface Props {
 export const BlogLayout: React.FC<Props> = ({ showHeader, children }) => {
 	return (
 		<CustomLayout>
-			{showHeader && <Header />}
+			{showHeader && <HomeHeader />}
 			<Content
 				style={{
 					padding: '0 25px',

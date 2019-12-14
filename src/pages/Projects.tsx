@@ -51,7 +51,7 @@ const SkillCard = styled(Card)`
 	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 `;
 
-export const About: React.FC<Props> = () => {
+export const Projects: React.FC<Props> = () => {
 	const mySkills = [
 		{
 			category: 'Backend',
@@ -69,9 +69,8 @@ export const About: React.FC<Props> = () => {
 	const isMobile = useMediaQuery({
 		query: '(max-width: 767px)'
 	});
-
 	return (
-		<BasePage title="about">
+		<BasePage title="projects">
 			<Container>
 				<Row style={{ marginTop: 20 }}>
 					<ColAbout xs={24} sm={24} md={9} mobile={isMobile}>

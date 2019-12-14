@@ -7,18 +7,26 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.padding-right {
+	padding-right: 20px;
+}
+
 .home-page-element {
 	padding-top: 100px;
 	height: 100vh;
+	background: #f7f8fa; /*change it for blog maybe*/
 	text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+	.home-page-element {
+		padding-top: 50px;
+		height: 100%;
+	}
 }
 
 span[class='ant-typography'] {
 	font-size: 18px;
-}
-
-.anticon {
-	vertical-align: 0 !important;
 }
 
 h1,

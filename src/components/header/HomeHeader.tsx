@@ -2,34 +2,24 @@ import './header.css';
 
 import { BackTop, Button, Col, Drawer, Icon, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { Component, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-scroll';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 
 import lightLogo from '../../assets/logo-light.png';
 import { device } from '../../device';
-import { LeftMenu } from './LeftMenu';
-import { RightMenu } from './RightMenu';
+import { useMediaQuery } from 'react-responsive';
+
+import { withRouter } from 'react-router-dom';
 const { Title } = Typography;
 
 interface Props {}
-
-const Wrapper = styled.div`
-	z-index: 1;
-	padding-top: 30px;
-	opacity: 1;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	color: #ffff;
-`;
 
 const Nav = styled.nav`
 	position: ${(props: any) => (props.sticky ? 'fixed' : 'relative')};
 	top: 0;
 	${(props: any) => props.sticky && 'bottom: inherit'};
-	left: 0;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -40,16 +30,22 @@ const Nav = styled.nav`
 	z-index: 1;
 ` as any;
 
-const NavLinkWrapper = styled.div`
+const NavLinkWrapper = styled.div<{ mobile?: boolean }>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 35%;
-	margin-left: 20%;
+	width: ${(props) => (props.mobile ? '100%' : '35%')};
+	${(props) => !props.mobile && 'margin-left: 20%'};
+	${(props) =>
+		props.mobile &&
+		`
+		padding-left: 20px;
+		padding-right: 20px;
+	`};
 	height: 50px;
 `;
 
-const PageLink = styled(Link)`
+const PageLink = styled(ScrollLink)`
 	font-size: 18px;
 	font-weight: 500;
 	font-family: 'Montserrat';
@@ -61,11 +57,29 @@ const PageLink = styled(Link)`
 	}
 ` as any;
 
+const HamburgerButton = styled.div`
+	&& {
+		background: transparent;
+		font-size: 16px;
+		color: white;
+		float: right;
+	}
+`;
+
+const DrawerLink = styled(PageLink)`
+	color: rgba(0, 0, 0, 0.95);
+`;
+
 export const HeaderComponent: React.FC<Props> = observer(() => {
 	const [activeLink, setActiveLink] = React.useState('');
+	const [drawerVisible, setDrawerVisible] = React.useState(false);
 	const [stickyNav, setStickyNav] = React.useState(false);
 
-	const links = ['HOME', 'ABOUT', 'PORTFOLIO', 'BLOG', 'CONTACT'];
+	const links = ['HOME', 'ABOUT', 'PROJECTS', 'BLOG', 'CONTACT'];
+
+	const isMobile = useMediaQuery({
+		query: '(max-width: 767px)'
+	});
 
 	const resizeHeaderOnScroll = () => {
 		const distanceY = window.pageYOffset || document.documentElement.scrollTop,
@@ -83,11 +97,78 @@ export const HeaderComponent: React.FC<Props> = observer(() => {
 		// clean up
 		return () => window.removeEventListener('scroll', resizeHeaderOnScroll);
 	}, []);
-	return (
-		<Nav sticky={stickyNav} className={stickyNav ? 'slide-bottom' : ''}>
+
+	const renderMobileHeader = () => {
+		return (
+			<>
+				<NavLinkWrapper mobile={isMobile}>
+					<PageLink
+						to="home"
+						spy={true}
+						smooth={true}
+						duration={300}
+						onClick={() => setActiveLink('home')}
+					>
+						<Logo src={lightLogo} />
+					</PageLink>
+					<HamburgerButton>
+						<Icon type="menu" onClick={() => setDrawerVisible(true)} />
+					</HamburgerButton>
+				</NavLinkWrapper>
+				<Drawer
+					title="Menu"
+					placement="right"
+					closable={false}
+					onClose={() => setDrawerVisible(false)}
+					visible={drawerVisible}
+				>
+					{links.map((link) => {
+						const to = link.toLowerCase();
+						return (
+							<div style={{ marginTop: 10, textAlign: 'center' }}>
+								{to === 'blog' ? (
+									<RouterLink to="blog">
+										<h1>BLOG</h1>
+									</RouterLink>
+								) : (
+									<>
+										<DrawerLink
+											to={to}
+											spy={true}
+											smooth={true}
+											duration={300}
+											key={link}
+											onClick={() => {
+												setActiveLink(link);
+												setDrawerVisible(false);
+											}}
+											activeClass="link-active"
+										>
+											{link}
+										</DrawerLink>
+										<br />
+									</>
+								)}
+							</div>
+						);
+					})}
+				</Drawer>
+			</>
+		);
+	};
+
+	const renderDesktopHeader = () => {
+		return (
 			<NavLinkWrapper>
-				{/*TODO make it responsive */}
-				<Logo src={lightLogo} />
+				<PageLink
+					to="home"
+					spy={true}
+					smooth={true}
+					duration={300}
+					onClick={() => setActiveLink('home')}
+				>
+					<Logo src={lightLogo} />
+				</PageLink>
 				{links.map((link) => {
 					const to = link.toLowerCase();
 					return (
@@ -95,7 +176,7 @@ export const HeaderComponent: React.FC<Props> = observer(() => {
 							to={to}
 							spy={true}
 							smooth={true}
-							duration={500}
+							duration={300}
 							key={link}
 							onClick={() => setActiveLink(link)}
 							activeClass="link-active"
@@ -105,6 +186,12 @@ export const HeaderComponent: React.FC<Props> = observer(() => {
 					);
 				})}
 			</NavLinkWrapper>
+		);
+	};
+
+	return (
+		<Nav sticky={stickyNav} className={stickyNav ? 'slide-bottom' : ''}>
+			{isMobile ? renderMobileHeader() : renderDesktopHeader()}
 		</Nav>
 	);
 });
@@ -113,7 +200,7 @@ const Logo = styled.img`
 	width: 130px;
 
 	@media ${device.mobileS}, ${device.mobileM}, ${device.mobileL} {
-		width: 130px;
+		width: 90px;
 	}
 
 	@media ${device.tablet} {
